@@ -4,6 +4,8 @@
   "package": "me.fallenbreath.letmeclickandsendforserver.mixins",
   "compatibilityLevel": "{{COMPATIBILITY_LEVEL}}",
   "mixins": [
+    "command.CommandManagerMixin",
+    "replacements.ChatMessageS2CPacketMixin"
   ],
   "client": [
   ],
