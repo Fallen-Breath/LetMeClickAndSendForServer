@@ -57,8 +57,8 @@ body:
   - type: input
     id: mod-version
     attributes:
-      label: TemplateMod version
-      description: The TemplateMod version(s) where this bug occurs in.
+      label: Let Me Click And Send for Server version
+      description: The Let Me Click And Send for Server version(s) where this bug occurs in.
       placeholder: 1.2.3
     validations:
       required: true

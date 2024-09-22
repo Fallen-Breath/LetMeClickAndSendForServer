@@ -4,25 +4,25 @@
   "version": "${version}",
 
   "name": "${name}",
-  "description": "Template for my fabric mods",
+  "description": "A simple Minecraft server-side mod, that replaces all non-command `run_command` content with a custom command, to bypass client-side restrictions since 1.19.1-rc1",
   "authors": [
     "Fallen_Breath"
   ],
   "contact": {
     "homepage": "https://modrinth.com",
-    "sources": "https://github.com/Fallen-Breath/fabric-mod-template"
+    "sources": "https://github.com/Fallen-Breath/LetMeClickAndSendForServer"
   },
 
-  "icon": "assets/template_mod/icon.png",
+  "icon": "assets/letmeclickandsendforserver/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "me.fallenbreath.template_mod.TemplateMod"
+      "me.fallenbreath.letmeclickandsendforserver.LetMeClickAndSendForServerMod"
     ]
   },
   "mixins": [
-    "template_mod.mixins.json"
+    "letmeclickandsendforserver.mixins.json"
   ],
 
   "depends": {

@@ -1,16 +1,16 @@
 modLoader = "javafml"
 loaderVersion = "[1,)"
 license = "LGPLv3"
-issueTrackerURL = "https://github.com/Fallen-Breath/fabric-mod-template/issues"
+issueTrackerURL = "https://github.com/Fallen-Breath/LetMeClickAndSendForServer/issues"
 
 [[mods]]
 modId = "${id}"
 version = "${version}"
 displayName = "${name}"
-displayURL = "https://github.com/Fallen-Breath/fabric-mod-template"
+displayURL = "https://github.com/Fallen-Breath/LetMeClickAndSendForServer"
 authors = "Fallen_Breath"
 description = '''
-Template for my fabric mods
+A simple Minecraft server-side mod, that replaces all non-command `run_command` content with a custom command, to bypass client-side restrictions since 1.19.1-rc1
 '''
 logoFile = "icon.png"
 
