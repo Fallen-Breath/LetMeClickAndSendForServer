@@ -1,8 +1,8 @@
 ## Let Me Click And Send for Server
 
 [![MC Versions](https://cf.way2muchnoise.eu/versions/For%20MC_1107596_all.svg)](https://www.curseforge.com/minecraft/mc-mods/let-me-click-and-send-for-server)
-[![CurseForge](https://cf.way2muchnoise.eu/full_694888_downloads.svg)](https://legacy.curseforge.com/minecraft/mc-mods/let-me-click-and-send-for-server)
-[![Modrinth](https://img.shields.io/modrinth/dt/pGbwwB5d?label=Modrinth%20Downloads)](https://modrinth.com/project/let-me-click-and-send-for-server)
+[![CurseForge](https://cf.way2muchnoise.eu/full_1107596_downloads.svg)](https://legacy.curseforge.com/minecraft/mc-mods/let-me-click-and-send-for-server)
+[![Modrinth](https://img.shields.io/modrinth/dt/HtZfkfG8?label=Modrinth%20Downloads)](https://modrinth.com/project/let-me-click-and-send-for-server)
 
 A simple Minecraft server-side mod, that replaces all non-command `run_command` content with a custom command,
 to bypass client-side restrictions since 1.19.1-rc1
