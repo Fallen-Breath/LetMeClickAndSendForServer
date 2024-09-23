@@ -35,13 +35,22 @@ import java.util.Queue;
 
 public class ClickEventReplacer
 {
+	private static final int MAX_QUEUE_ITERATIONS = 100000;
+
 	public static void replaceInPlace(Text root)
 	{
 		Queue<Text> queue = Queues.newArrayDeque();
 		queue.add(root);
 
+		int cnt = 0;
 		while (!queue.isEmpty())
 		{
+			if (++cnt >= MAX_QUEUE_ITERATIONS || queue.size() >= MAX_QUEUE_ITERATIONS)
+			{
+				LetMeClickAndSendForServerMod.LOGGER.warn("Max queue iteration {} exceeded, queue size {}", MAX_QUEUE_ITERATIONS, queue.size());
+				break;
+			}
+
 			Text text = queue.poll();
 
 			Style style = text.getStyle();
