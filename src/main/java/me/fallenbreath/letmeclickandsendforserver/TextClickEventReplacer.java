@@ -33,7 +33,7 @@ import java.util.Queue;
 //$$ import net.minecraft.text.MutableText;
 //#endif
 
-public class ClickEventReplacer
+public class TextClickEventReplacer
 {
 	private static final int MAX_QUEUE_ITERATIONS = 100000;
 

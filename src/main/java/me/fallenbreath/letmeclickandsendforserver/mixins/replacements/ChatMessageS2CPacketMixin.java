@@ -20,7 +20,7 @@
 
 package me.fallenbreath.letmeclickandsendforserver.mixins.replacements;
 
-import me.fallenbreath.letmeclickandsendforserver.ClickEventReplacer;
+import me.fallenbreath.letmeclickandsendforserver.TextClickEventReplacer;
 import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
@@ -43,7 +43,7 @@ public abstract class ChatMessageS2CPacketMixin
 	)
 	private static Text replaceClickEventInText(Text text)
 	{
-		ClickEventReplacer.replaceInPlace(text);
+		TextClickEventReplacer.replaceInPlace(text);
 		return text;
 	}
 }
