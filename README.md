@@ -19,15 +19,48 @@ If you want a more direct solution, here's a client-side only mod that does the 
 
 Let's run the following command, and then click the shown text
 
-```
+```bash
+# Minecraft [1.7, 1.21.5)
 /tellraw @a {"text":"click me to send \"hi\"","clickEvent":{"action":"run_command","value":"hi"}}
 ```
 
-In vanilla 1.19.1+, after clicking, you are not able to say anything since `hi` is not a valid command (not starts with `/`)
+In vanilla 1.19.1 ~ 1.21.4, after clicking, you are not able to say anything since `hi` is not a valid command (not starts with `/`)
 
 With this mod, the server will automatically replace the `value` field in the click event above with `/lmcas hi`,
-so the client can send the command without any issue after the click. 
-On command received, the server will broadcast a message with the same format as a player message   
+so the client can "send" the message without any issue after the click
+
+On command received, the server will broadcast a message with the same format as a player message, simulating the player saying "hi" in chat
+
+### MC 1.21.5+
+
+Since MC 1.21.5, the `run_command` behavior has changed a lot
+
+First is the change in command syntax, which has little impact:
+
+```bash
+# Minecraft [1.21.5, ~)
+/tellraw @a {"text":"click me to send \"hi\"","click_event":{"action":"run_command","command":"hi"}}
+```
+
+Next is the change in behavior, which has a greater impact:
+
+- The `command` value is always valid, regardless of whether it starts with a `/` or not
+- The client will strip the `/` prefix from the `command` value and send the remaining string as a command
+
+It's no longer possible to correctly distinguish between "a run_command for sending chat message" and "a run_command for sending command"
+
+As a workaround, LetMeClickAndSendForServer for MC >= 1.21.5 will only replace certain `command` with the `/lmcas` command.
+By default, only `command` value starting with `!!` will be replaced
+
+A config file located at `./config/letmeclickandsendforserver/config.json` is added for customizing the replacing behavior
+
+```json
+{
+    "replacePattern": "!!.*"
+}
+```
+
+The `replacePattern` should be a valid regex pattern. All `command` values that fully match the pattern will be replaced with the `/lmcas` command
 
 ### Requirements
 

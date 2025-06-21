@@ -29,6 +29,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 import java.util.Queue;
 
+//#if MC >= 12105
+//$$ import me.fallenbreath.letmeclickandsendforserver.LmcasfsConfig;
+//#endif
+
 //#if MC >= 11600
 //$$ import net.minecraft.text.MutableText;
 //#endif
@@ -73,16 +77,36 @@ public class TextClickEventReplacer
 
 	private static Optional<ClickEvent> replaceClickEvent(@Nullable ClickEvent event)
 	{
-		if (
-				event != null
-				&& event.getAction() == ClickEvent.Action.RUN_COMMAND
-				&& !event.getValue().isEmpty()
-				&& !event.getValue().startsWith("/")
-		)
+		if (event == null || event.getAction() != ClickEvent.Action.RUN_COMMAND)
 		{
-			String newValue = "/lmcas " + event.getValue();
-			return Optional.of(new ClickEvent(event.getAction(), newValue));
+			return Optional.empty();
 		}
-		return Optional.empty();
+
+		//#if MC >= 12105
+		//$$ String command = ((ClickEvent.RunCommand)event).command();
+		//#else
+		String command = event.getValue();
+		//#endif
+
+		if (command.isEmpty() || command.startsWith("/"))
+		{
+			return Optional.empty();
+		}
+
+		//#if MC >= 12105
+		//$$ if (!LmcasfsConfig.getInstance().getReplacePattern().matcher(command).matches())
+		//$$ {
+		//$$ 	return Optional.empty();
+		//$$ }
+		//#endif
+
+		String newValue = "/lmcas " + command;
+		return Optional.of(
+				//#if MC >= 12105
+				//$$ new ClickEvent.RunCommand(newValue)
+				//#else
+				new ClickEvent(event.getAction(), newValue)
+				//#endif
+		);
 	}
 }

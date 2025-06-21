@@ -44,6 +44,8 @@ public class LetMeClickAndSendForServerMod
 		implements ModInitializer
 		//#endif
 {
+	public static final String MOD_ID = "letmeclickandsendforserver";
+
 	public static final Logger LOGGER =
 			//#if MC >= 11802
 			//$$ LogUtils.getLogger();
@@ -58,5 +60,9 @@ public class LetMeClickAndSendForServerMod
 	//#endif
 	{
 		LOGGER.info("Let me click and send for server!");
+
+		//#if MC >= 12105
+		//$$ LmcasfsConfig.getInstance().load();
+		//#endif
 	}
 }
