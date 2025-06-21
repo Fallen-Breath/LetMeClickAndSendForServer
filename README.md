@@ -50,7 +50,8 @@ Next is the change in behavior, which has a greater impact:
 It's no longer possible to correctly distinguish between "a run_command for sending chat message" and "a run_command for sending command"
 
 As a workaround, LetMeClickAndSendForServer for MC >= 1.21.5 will only replace certain `command` with the `/lmcas` command.
-By default, only `command` value starting with `!!` will be replaced
+By default, only `command` value starting with `!!`, which is a commonly-used command prefix 
+in [MCDReforged](https://github.com/MCDReforged/MCDReforged) plugin ecosystem, will be replaced
 
 A config file located at `./config/letmeclickandsendforserver/config.json` is added for customizing the replacing behavior
 
@@ -61,6 +62,12 @@ A config file located at `./config/letmeclickandsendforserver/config.json` is ad
 ```
 
 The `replacePattern` should be a valid regex pattern. All `command` values that fully match the pattern will be replaced with the `/lmcas` command
+
+To test with the default configuration, you can use:
+
+```bash
+/tellraw @a {"text":"click me to send \"!!MCDR\"","click_event":{"action":"run_command","command":"!!MCDR"}}
+```
 
 ### Requirements
 
