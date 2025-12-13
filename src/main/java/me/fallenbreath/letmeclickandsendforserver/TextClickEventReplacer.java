@@ -21,9 +21,9 @@
 package me.fallenbreath.letmeclickandsendforserver;
 
 import com.google.common.collect.Queues;
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -34,16 +34,16 @@ import java.util.Queue;
 //#endif
 
 //#if MC >= 11600
-//$$ import net.minecraft.text.MutableText;
+//$$ import net.minecraft.network.chat.MutableComponent;
 //#endif
 
 public class TextClickEventReplacer
 {
 	private static final int MAX_QUEUE_ITERATIONS = 100000;
 
-	public static void replaceInPlace(Text root)
+	public static void replaceInPlace(Component root)
 	{
-		Queue<Text> queue = Queues.newArrayDeque();
+		Queue<Component> queue = Queues.newArrayDeque();
 		queue.add(root);
 
 		int cnt = 0;
@@ -55,14 +55,14 @@ public class TextClickEventReplacer
 				break;
 			}
 
-			Text text = queue.poll();
+			Component text = queue.poll();
 
 			Style style = text.getStyle();
 
 			//#if MC >= 11600
-			//$$ if (text instanceof MutableText)
+			//$$ if (text instanceof MutableComponent)
 			//$$ {
-			//$$ 	MutableText mutableText = (MutableText)text;
+			//$$ 	MutableComponent mutableText = (MutableComponent)text;
 			//$$ 	replaceClickEvent(style.getClickEvent()).ifPresent(
 			//$$ 			e -> mutableText.setStyle(style.withClickEvent(e))
 			//$$ 	);

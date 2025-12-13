@@ -21,30 +21,30 @@
 package me.fallenbreath.letmeclickandsendforserver;
 
 import com.mojang.brigadier.CommandDispatcher;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.server.level.ServerPlayer;
 
 import static com.mojang.brigadier.arguments.StringArgumentType.getString;
 import static com.mojang.brigadier.arguments.StringArgumentType.greedyString;
-import static net.minecraft.server.command.CommandManager.argument;
-import static net.minecraft.server.command.CommandManager.literal;
+import static net.minecraft.commands.Commands.argument;
+import static net.minecraft.commands.Commands.literal;
 
 //#if MC >= 11600
-//$$ import net.minecraft.network.MessageType;
+//$$ import net.minecraft.network.chat.ChatType;
 //#endif
 
 public class LmcasCommand
 {
-	public static void register(CommandDispatcher<ServerCommandSource> dispatcher)
+	public static void register(CommandDispatcher<CommandSourceStack> dispatcher)
 	{
 		dispatcher.register(literal("lmcas")
 				.then(argument("message", greedyString())
 						.executes(c -> mimicMessage(
-								c.getSource().getMinecraftServer(),
-								c.getSource().getPlayer(),
+								c.getSource().getServer(),
+								c.getSource().getPlayerOrException(),
 								getString(c, "message")
 						))
 				)
@@ -53,29 +53,34 @@ public class LmcasCommand
 
 	/**
 	 * Reference:
-	 * - (mc1.15) {@link net.minecraft.server.network.ServerPlayNetworkHandler#onChatMessage}
-	 * - (mc1.16) {@link net.minecraft.server.network.ServerPlayNetworkHandler#method_31286}
-	 * - (mc1.17) {@link net.minecraft.server.network.ServerPlayNetworkHandler#handleMessage}
-	 * - (mc1.19) {@link net.minecraft.server.network.ServerPlayNetworkHandler#handleDecoratedMessage}
-	 * - {@link net.minecraft.server.PlayerManager#broadcastChatMessage}
+	 *   MC < 1.19
+	 *     {@link net.minecraft.server.network.ServerGamePacketListenerImpl#handleChat}
+	 *     {@link net.minecraft.server.players.PlayerList#broadcastMessage}
+	 *   MC >= 1.19
+	 *     {@link net.minecraft.server.network.ServerGamePacketListenerImpl#broadcastChatMessage}
+	 *     {@link net.minecraft.server.players.PlayerList#broadcastSystemMessage}
 	 */
-	private static int mimicMessage(MinecraftServer server, ServerPlayerEntity player, String message)
+	private static int mimicMessage(MinecraftServer server, ServerPlayer player, String message)
 	{
-		Text text =
+		Component text =
 				//#if MC >= 11900
-				//$$ Text.translatable
+				//$$ Component.translatable
 				//#else
-				new TranslatableText
+				new TranslatableComponent
 				//#endif
 				("chat.type.text", player.getDisplayName(), message);
 
-		server.getPlayerManager().broadcastChatMessage(
-				//#if 11600 <= MC && MC < 11900
-				//$$ text, MessageType.CHAT, player.getUuid()
+		//#if MC >= 11900
+		//$$ server.getPlayerList().broadcastSystemMessage(text, false);
+		//#else
+		server.getPlayerList().broadcastMessage(
+				//#if MC >= 11600
+				//$$ text, ChatType.CHAT, player.getUUID()
 				//#else
 				text, false
 				//#endif
 		);
+		//#endif
 		return 1;
 	}
 }

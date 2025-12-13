@@ -21,27 +21,38 @@
 package me.fallenbreath.letmeclickandsendforserver.mixins.replacements;
 
 import me.fallenbreath.letmeclickandsendforserver.TextClickEventReplacer;
-import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-@Mixin(ChatMessageS2CPacket.class)
+//#if MC >= 11900
+//$$ import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
+//#else
+import net.minecraft.network.protocol.game.ClientboundChatPacket;
+//#endif
+
+@Mixin(
+		//#if MC >= 11900
+		//$$ ClientboundSystemChatPacket.class
+		//#else
+		ClientboundChatPacket.class
+		//#endif
+)
 public abstract class ChatMessageS2CPacketMixin
 {
 	@ModifyVariable(
 			//#if MC >= 11900
-			//$$ method = "<init>(Lnet/minecraft/text/Text;Z)V",
+			//$$ method = "<init>(Lnet/minecraft/network/chat/Component;Z)V",
 			//#elseif MC >= 11600
-			//$$ method = "<init>(Lnet/minecraft/text/Text;Lnet/minecraft/network/MessageType;Ljava/util/UUID;)V",
+			//$$ method = "<init>(Lnet/minecraft/network/chat/Component;Lnet/minecraft/network/chat/ChatType;Ljava/util/UUID;)V",
 			//#else
-			method = "<init>(Lnet/minecraft/text/Text;Lnet/minecraft/network/MessageType;)V",
+			method = "<init>(Lnet/minecraft/network/chat/Component;Lnet/minecraft/network/chat/ChatType;)V",
 			//#endif
 			at = @At("HEAD"),
 			argsOnly = true
 	)
-	private static Text replaceClickEventInText(Text text)
+	private static Component replaceClickEventInText(Component text)
 	{
 		TextClickEventReplacer.replaceInPlace(text);
 		return text;
