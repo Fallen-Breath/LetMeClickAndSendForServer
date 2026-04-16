@@ -28,24 +28,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 //#endif
 
-//#if FABRIC
-import net.fabricmc.api.ModInitializer;
-//#elseif FORGE
-//$$ import net.minecraftforge.fml.common.Mod;
-//#elseif NEOFORGE
-//$$ import net.neoforged.fml.common.Mod;
-//#endif
-
-//#if FORGE_LIKE
-//$$ @Mod("letmeclickandsendforserver")
-//#endif
+@net.minecraftforge.fml.common.Mod(LetMeClickAndSendForServerMod.MOD_ID)
+@net.neoforged.fml.common.Mod(LetMeClickAndSendForServerMod.MOD_ID)
 public class LetMeClickAndSendForServerMod
-		//#if FABRIC
-		implements ModInitializer
-		//#endif
 {
-	public static final String MOD_ID = "letmeclickandsendforserver";
-
 	public static final Logger LOGGER =
 			//#if MC >= 11802
 			//$$ LogUtils.getLogger();
@@ -53,11 +39,15 @@ public class LetMeClickAndSendForServerMod
 			LogManager.getLogger();
 			//#endif
 
-	//#if FABRIC
-	@Override public void onInitialize()
-	//#elseif FORGE_LIKE
-	//$$ public LetMeClickAndSendForServerMod()
-	//#endif
+	public static final String MOD_ID = "letmeclickandsendforserver";
+
+	public static void fabricInit()
+	{
+		//noinspection InstantiationOfUtilityClass
+		new LetMeClickAndSendForServerMod();
+	}
+
+	public LetMeClickAndSendForServerMod()
 	{
 		LOGGER.info("Let me click and send for server!");
 
