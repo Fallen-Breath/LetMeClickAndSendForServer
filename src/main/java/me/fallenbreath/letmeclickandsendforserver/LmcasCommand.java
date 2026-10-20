@@ -32,6 +32,10 @@ import static com.mojang.brigadier.arguments.StringArgumentType.greedyString;
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
 
+//#if MC >= 26.3
+//$$ import me.fallenbreath.letmeclickandsendforserver.mixins.accessors.MinecraftServerAccessor;
+//#endif
+
 //#if MC >= 11600
 //$$ import net.minecraft.network.chat.ChatType;
 //#endif
@@ -70,7 +74,14 @@ public class LmcasCommand
 				//#endif
 				("chat.type.text", player.getDisplayName(), message);
 
-		//#if MC >= 11900
+		//#if MC >= 26.3
+		// Use the same logger as MinecraftServer.sendSystemMessage, without the "System chat: " prefix added in 26.3.
+		//$$ MinecraftServerAccessor.getLogger().info("{}", text.getString());
+		//$$ for (ServerPlayer recipient : server.getPlayerList().getPlayers())
+		//$$ {
+		//$$ 	recipient.sendSystemMessage(text, false);
+		//$$ }
+		//#elseif MC >= 11900
 		//$$ server.getPlayerList().broadcastSystemMessage(text, false);
 		//#else
 		server.getPlayerList().broadcastMessage(
